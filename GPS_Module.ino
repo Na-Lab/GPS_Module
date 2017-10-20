@@ -1,17 +1,18 @@
 #include <SoftwareSerial.h>
 
-#define PIN_GPS_RX 10
-#define PIN_GPS_TX 11
+#define PIN_GPS_RX 10           // GPSモジュール受信ピン
+#define PIN_GPS_TX 11           // GPSモジュール送信ピン
 
-#define SERIAL_BAUDRATE 9600
-#define GPS_BAUDRATE 9600
+#define SERIAL_BAUDRATE 9600    // シリアルモニタビューレート
+#define GPS_BAUDRATE 9600       // GPSモジュールボーレート
 
-#define BUFFER_SIZE 256
+#define BUFFER_SIZE 256         // バッファサイズ
 
-#define DELIMITER (",")
+#define DELIMITER (",")         // NMEAフォーマットの区切り
 
 SoftwareSerial gps(PIN_GPS_RX, PIN_GPS_TX);
 
+// 位置情報
 typedef struct position
 {
     double latitude;  // 緯度
@@ -19,6 +20,8 @@ typedef struct position
 } position_t;
 
 // NMEAフォーマット読み取り関数
+// 引数　*buf バッファへのポインタ
+// 戻り値　なし
 void rcv_nmea(char *buf)
 {
     char c;
@@ -38,6 +41,8 @@ void rcv_nmea(char *buf)
 }
 
 // DEG表記変換関数
+// 引数　*data DMM表記データへのポインタ
+// 戻り値　DEG表記のデータ
 double dmm_2_deg(char *data)
 {
     double temp, deg, min;
@@ -49,6 +54,8 @@ double dmm_2_deg(char *data)
 }
 
 // 位置情報取得関数
+// 引数　*pos位置情報データ格納構造体
+// 戻り値　なし
 void get_position(position_t *pos)
 {
     char buf[BUFFER_SIZE];

@@ -69,6 +69,7 @@ void get_position(position_t *pos)
 
     // 位置情報の抽出
     strtok(buf, DELIMITER);           // $GPGGA
+    strtok(NULL, DELIMITER);          // UTC時刻
     lat_p = strtok(NULL, DELIMITER);  // 緯度
     strtok(NULL, DELIMITER);          // 南北
     long_p = strtok(NULL, DELIMITER); // 経度

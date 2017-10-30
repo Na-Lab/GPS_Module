@@ -1,23 +1,14 @@
 #include <SoftwareSerial.h>
-
-#define PIN_GPS_RX 10           // GPSモジュール受信ピン
-#define PIN_GPS_TX 11           // GPSモジュール送信ピン
-
-#define SERIAL_BAUDRATE 9600    // シリアルモニタビューレート
-#define GPS_BAUDRATE 9600       // GPSモジュールボーレート
-
-#define BUFFER_SIZE 256         // バッファサイズ
-
-#define DELIMITER (",")         // NMEAフォーマットの区切り
+#include "GPS_Module.h"
 
 SoftwareSerial gps(PIN_GPS_RX, PIN_GPS_TX);
 
-// 位置情報
-typedef struct position
+// GPSモジュール初期処理関数
+void gps_init()
 {
-    double latitude;  // 緯度
-    double longitude; // 軽度
-} position_t;
+    gps.begin(GPS_BAUDRATE);
+}
+
 
 // NMEAフォーマット読み取り関数
 // 引数　*buf バッファへのポインタ
@@ -77,22 +68,4 @@ void get_position(position_t *pos)
     // データの加工
     pos->latitude = dmm_2_deg(lat_p);
     pos->longitude = dmm_2_deg(long_p);
-}
-
-void setup()
-{
-    Serial.begin(SERIAL_BAUDRATE);
-    gps.begin(GPS_BAUDRATE);
-}
-
-void loop()
-{
-    position_t pos = {0};
-
-    get_position(&pos);
-
-    Serial.print("Latitude = ");
-    Serial.print(pos.latitude);
-    Serial.print(", Longitude = ");
-    Serial.println(pos.longitude);
 }

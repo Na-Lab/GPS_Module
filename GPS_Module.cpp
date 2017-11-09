@@ -1,12 +1,10 @@
-#include <SoftwareSerial.h>
+#include <Arduino.h>
 #include "GPS_Module.h"
-
-SoftwareSerial gps(PIN_GPS_RX, PIN_GPS_TX);
 
 // GPSモジュール初期処理関数
 void gps_init()
 {
-    gps.begin(GPS_BAUDRATE);
+    Serial1.begin(GPS_BAUDRATE);
 }
 
 
@@ -20,9 +18,9 @@ void rcv_nmea(char *buf)
 
     do
     {
-        if (gps.available())
+        if (Serial1.available() > 0)
         {
-            buf[count] = gps.read();
+            buf[count] = Serial1.read();
             count++;
         }
         if (count > BUFFER_SIZE - 2)

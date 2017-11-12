@@ -1,19 +1,41 @@
 #ifndef GPS_MODULE_h
 #define GPS_MODULE_h
+/**
+* @brief GPSモジュール制御クラス
+*
+*/
+class GPS {
+ public:
+  /**
+   * @brief コンストラクタ
+   *
+   * ボーレートを設定してGPSモジュールとシリアル通信を開始します。
+   * @param[in] baudRate シリアル通信のボーレート
+   */
+  GPS(const int baudRate);
 
-#define PIN_GPS_RX 10           // GPSモジュール受信ピン
-#define PIN_GPS_TX 11           // GPSモジュール送信ピン
-#define GPS_BAUDRATE 9600       // GPSモジュールボーレート
-#define DELIMITER (",")         // NMEAフォーマットの区切り
+  /**
+   * @brief 測位情報更新関数
+   *
+   * GPSモジュールからNMEAフォーマットを受信して緯度経度を取得します。
+   */
+  void update();
 
-typedef struct position
-{
-    double latitude;  // 緯度
-    double longitude; // 軽度
-} position_t;
+  double getLatitude();
+  double getLongitude();
 
-void gps_init();
+ private:
+  /**
+   * @brief 緯度経度調整関数
+   *
+   * 緯度経度を数値化し、60進法から10進法に変換します。
+   * @param[in] data  文字列座標データへのポインタ
+   * @return          10進法数値座標
+   */
+  double dataCoordinator(char *data);
 
-void get_position(position_t *pos);
+  double latitude;  /**< 緯度 */
+  double longitude; /**< 経度 */
+};
 
 #endif

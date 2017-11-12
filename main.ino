@@ -1,17 +1,17 @@
+#include <Arduino.h>
 #include "GPS_Module.h"
-#define SERIAL_BAUDRATE 9600  // シリアルモニタビューレート
+
+GPS gps(9600);
 
 void setup() {
-  Serial.begin(SERIAL_BAUDRATE);
-  gps_init();
+  Serial.begin(9600);
 }
 
 void loop() {
-  position_t pos = {0};
-  get_position(&pos);
+  gps.update();
 
   Serial.print("Latitude = ");
-  Serial.print(pos.latitude);
+  Serial.print(gps.getLatitude());
   Serial.print(", Longitude = ");
-  Serial.println(pos.longitude);
+  Serial.println(gps.getLongitude());
 }

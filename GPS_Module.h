@@ -1,9 +1,9 @@
 #ifndef GPS_MODULE_h
 #define GPS_MODULE_h
 /**
-* @brief GPSモジュール制御クラス
-*
-*/
+ * @brief GPSモジュール制御クラス
+ *
+ */
 class GPS {
  public:
   /**
